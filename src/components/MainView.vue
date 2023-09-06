@@ -59,10 +59,49 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      temporaryData: [
+        {
+          title: "습도",
+          value: "89%",
+        },
+        {
+          title: "풍thr",
+          value: "10m/s",
+        },
+        {
+          title: "풍향",
+          value: "WS",
+        },
+      ],
+    };
+  },
+  created() {
+    //https://api.openweathermap.org/data/2.5/onecall?lat=${initialLat}&lon=${initialLon}&appid=${API_KEY}&units=metric
+    const API_KEY = "284bfdeb630520653864189833ba7c68";
+    let initialLat = 36.5683;
+    let initialLon = 126.9778;
+
+    //get() api호출 then() 응답 catch() 에러 조회
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${initialLat}&lon=${initialLon}&appid=${API_KEY}&units=metric`
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import '~/scss/main.scss';
-@import '~/scss/mainview.scss';
+@import "~/scss/main.scss";
+@import "~/scss/mainview.scss";
 </style>

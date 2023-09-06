@@ -33,10 +33,12 @@ export default {
       const map = new kakao.maps.Map(mapContainer, mapOption);
       const positions = [
         {
-          latlng: new kakao.maps.LatLng(36.73035, 127.967487),
+          //서울
+          latlng: new kakao.maps.LatLng(36.5683, 126.9778),
         },
         {
-          latlng: new kakao.maps.LatLng(36.73035, 127.967487),
+          //수원
+          latlng: new kakao.maps.LatLng(37,2911, 127.0089),
         }
       ];
       // 마커 생성
@@ -46,6 +48,15 @@ export default {
         });
         // 마커가 지도 위에 표시
         marker.setMap(map);
+        // kakao.maps.event.addListener(marker, "click", () => {
+        //   // 클릭한 위도, 경도 정보를 가져오기
+        //   // watch로 따로 빼지 않고, 직접 할당
+        //   this.$store.commit("openWeatherApi/SET_CITYNAME", pos.cityName);
+        //   this.$store.commit("openWeatherApi/SET_LATLON", marker.getPosition());
+        //   this.$store.dispatch("openWeatherApi/FETCH_OPENWEATHER_API");
+        // });
+        // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+        // marker.setMap(null);
       });
     },
   },
