@@ -42,5 +42,10 @@
   "dependencies": {
     "vue": "^3.2.14",
     "vue-router": "^4.2.4"
+  },
+  "eslintConfig": {
+    "globals": {
+      "kakao": false
+    }
   }
 }
