@@ -11,3 +11,5 @@ api
 - .postcssrc.js 생성(PostCSS 구성 옵션)
   
 - .babelrc.js` 생성(Babel 구성 옵션)
+
+- npm run dev
