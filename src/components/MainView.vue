@@ -2,28 +2,29 @@
   <div class="leftContainer">
     <div id="cityNameBox">
       <div class="cityName">
-        <p>San Fransisco</p>
-        <p>Jan 28,</p>
+        <p>{{ cityName }}</p>
+        <p>{{ currentTime }}</p>
       </div>
     </div>
     <div id="contentsBox">
       <div class="buttonBox">
         <div class="buttonBackground">
-          <button class="forecast">forecast</button>
-          <button class="airquality">airquality</button>
+          <button class="forecast">Forecast</button>
+          <button class="airquality">Air quality</button>
         </div>
       </div>
       <div class="weatherBox">
         <div class="weatherDegree">
-          <p>10&deg;</p>
+          <!-- 반올림 한수와 가장 가까운 정수값 -->
+          <p>{{ Math.round(currentTemp) }}&deg;</p>
         </div>
         <div class="weatherIcon">
           <img src="~/assets/images/01d.png" alt="MainLogo" />
         </div>
         <div class="weatherData">
-          <div>
-            <p></p>
-            <p></p>
+          <div v-for="temporary in temporaryData" :key="temporary.title" class="detailData">
+            <p>{{ temporary.title }}</p>
+            <p>{{ temporary.value }}</p>
           </div>
         </div>
       </div>
@@ -34,16 +35,16 @@
         <p>이번주 날씨 보기</p>
       </div>
       <div class="timelyWeatherBox">
-        <div class="timelyWeather">
+        <div class="timelyWeather" v-for="(temp, index) in arrayTemps" :key="index">
           <div class="icon">
             <img src="~/assets/images/01n.png" alt="29" />
           </div>
           <div class="data">
-            <p class="time">2pm</p>
-            <p class="current">32&deg;</p>
+            <p class="time">{{ Unix_timestamp(temp.dt) }}</p>
+            <p class="currentDegree">{{ Math.round(temp.temp) }}&deg;</p>
             <div>
               <img src="~/assets/images/drop.png" alt="drop" />
-              <p class="fall">15%</p>
+              <p class="fall">{{ temp.humidity }}%</p>
             </div>
           </div>
         </div>
@@ -60,22 +61,36 @@
 
 <script>
 import axios from "axios";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+dayjs.locale("ko"); //한국어 locale사용
 
 export default {
   data() {
     return {
+      //현재 시간 불러오기 dayjs플러그인
+      currentTime: dayjs().format("YYYY. MM .DD. ddd"),
+      //상세 날씨 데이터 데이터 할당
+      //현재 시간에 따른 현재 온도 데이터
+      currentTemp: "",
+      temps: [],
+      icons: [],
+      cityName: "",
+      arrayTemps: [],
+
+      //임시데이터
       temporaryData: [
         {
           title: "습도",
-          value: "89%",
+          value: "",
         },
         {
-          title: "풍thr",
-          value: "10m/s",
+          title: "풍속",
+          value: "",
         },
         {
-          title: "풍향",
-          value: "WS",
+          title: "체감온도",
+          value: "",
         },
       ],
     };
@@ -93,11 +108,37 @@ export default {
       )
       .then((response) => {
         console.log(response);
+        let initialCityName = response.data.timezone;
+        let initialCurrentWeatherData = response.data.current;
+
+        this.cityName = initialCityName.split("/")[1]; // ['asia', 'seoul']
+
+        this.currentTemp = initialCurrentWeatherData.temp;
+
+        this.temporaryData[0].value = initialCurrentWeatherData.humidity + "%"; //습도
+        this.temporaryData[1].value = initialCurrentWeatherData.wind_speed + "m/s"; //풍속
+        this.temporaryData[2].value = Math.round(initialCurrentWeatherData.feels_like) + "도"; //체감온도
+
+        //시간대별 날씨 데이터
+        // this.arrayTemps = response.data.hourly;
+        // //24시간 이내의 데이터만 활용
+        for (let i = 0; i < 24; i++){
+          this.arrayTemps[i] = response.data.hourly[i];
+        }
+        console.log(this.arrayTemps);
       })
       .catch((error) => {
         console.log(error);
       });
   },
+  methods:{
+    //타임스탬프로 변환
+    Unix_timestamp(dt) {
+      let date = new Date(dt * 1000);
+      let hour = "0" + date.getHours();
+      return hour.substr(-2) + "시";
+    }
+  }
 };
 </script>
 
