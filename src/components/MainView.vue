@@ -107,7 +107,7 @@ export default {
         `https://api.openweathermap.org/data/2.5/onecall?lat=${initialLat}&lon=${initialLon}&appid=${API_KEY}&units=metric`
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         let initialCityName = response.data.timezone;
         let initialCurrentWeatherData = response.data.current;
 
@@ -125,7 +125,7 @@ export default {
         for (let i = 0; i < 24; i++){
           this.arrayTemps[i] = response.data.hourly[i];
         }
-        console.log(this.arrayTemps);
+        // console.log(this.arrayTemps);
       })
       .catch((error) => {
         console.log(error);
