@@ -113,3 +113,5 @@ Optional api 리팩토링 해보기
 - .babelrc.js` 생성(Babel 구성 옵션)
 
 - npm run dev
+
+- npm install vuex@next
