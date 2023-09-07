@@ -49,11 +49,11 @@
 
 <script>
 import Map from "./Map.vue";
-import { ref } from "vue";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
-import axios from "axios";
 dayjs.locale("ko"); //한국어 locale사용
+import { useStore } from "vuex";
+import { computed, onMounted, ref, watchEffect } from "vue";
 
 export default {
   components: {
@@ -76,23 +76,31 @@ export default {
       return hour.substring(-2) + "시";
     };
 
+    //store에서 fetchOpenWeatherApi
+    const store = useStore();
     const fetchOpenWeatherApi = async () => {
-      const API_KEY = "e7878598157a92ae89d1403b94d8653d";
-      let initialLat = 36.5683;
-      let initialLon = 126.9778;
-
       try {
-        const res = await axios.get(
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${initialLat}&lon=${initialLon}&appid=${API_KEY}&units=metric`
-        );
-        console.log(res);
+        await store.dispatch("openWeatherApi/FETCH_OPENWEATHER_API");
+        const {
+          currentFeelsLike,
+          currentSunrise,
+          currentSunset,
+          currentVisibility,
+        } = store.state.openWeatherApi.currentWeather;
 
-        let isInitialData = res.data.current; //초기 데이터
-        let isInitialCityName = res.data.timezone; // 초기 도시이름
-        let isFeelLikeTemp = isInitialData.feels_like; // 초기 체감온도
-        let isTimeOfSunrise = isInitialData.sunrise; // 일출시간
-        let isTimeOfSunSet = isInitialData.sunset; // 일몰시간
-        let isLineOfSight = isInitialData.visibility; // 가시거리
+        let isInitialCityName = store.state.openWeatherApi.cityName;
+        let isFeelLikeTemp = computed(() => {
+          return currentFeelsLike;
+        });
+        let isTimeOfSunrise = computed(() => {
+          return currentSunrise;
+        });
+        let isTimeOfSunSet = computed(() => {
+          return currentSunset;
+        });
+        let isLineOfSight = computed(() => {
+          return currentVisibility;
+        });
 
         const pivots = [0, 10, 15, 20, 25, 30];
         const labels = [
@@ -106,8 +114,8 @@ export default {
         ];
 
         let index = 0;
-        for(const point of pivots){
-          if(isFeelLikeTemp < point) break;
+        for (const point of pivots) {
+          if (isFeelLikeTemp.value < point) break;
           index++;
         }
 
@@ -115,25 +123,35 @@ export default {
 
         //가공할 데이터 새로운 배열 생성 v-for편하게 쓰기 위해
         let isProcessedData = [
-          { name: "일출시간", value: Unix_timestamp(isTimeOfSunrise) },
-          { name: "일몰시간", value: Unix_timestamp(isTimeOfSunSet) },
+          { name: "일출시간", value: Unix_timestamp(isTimeOfSunrise.value) },
+          { name: "일몰시간", value: Unix_timestamp(isTimeOfSunSet.value) },
           {
             name: "가시거리",
             value:
-              isLineOfSight
+              isLineOfSight.value
                 .toString()
                 .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + "M",
           },
         ];
-        // Composition API에서 AJAX요청과 데이터 변경을 하려면 데이터.value로 접근해야한다.
-        cityName.value = isInitialCityName.split("/")[1];
+        // Composition API에서 AJAX요청과 데이터 변경을 하려면 데이터.value로 접근
+        cityName.value = isInitialCityName;
         subWeatherData.value = isProcessedData;
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchOpenWeatherApi();
+    //한번만 처리 하기 위해서 async await
+    watchEffect(async () => {
+      await fetchOpenWeatherApi();
+    });
+
+    // //Composition API에서 mounted 라이프 사이클 호출
+    // fetchOpenWeatherApi();
+    //store computed 후 호출
+    onMounted(() => {
+      fetchOpenWeatherApi();
+    });
 
     return {
       currentTime,
