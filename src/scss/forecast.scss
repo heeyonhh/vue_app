@@ -1,10 +1,11 @@
-.leftContainer {
-    width: 324px;
-    min-width: 324px;
-    height: 700px;
-    border-radius: 50px;
+.home {
+    width: 425px;
+    height: 100%;
     background: linear-gradient(#16455f, #0e1239);
-    box-shadow: 5px 5px 10px gray;
+
+    @media (max-width: 425px){
+          width: 100%;
+      }
 
     #cityNameBox {
         width: 100%;
@@ -151,17 +152,9 @@
 
             p {
                 font-weight: 400;
-                font-size: 0.8rem;
+                font-size: 1rem;
                 color: white;
                 text-align: center;
-
-                &:last-child {
-                    font-weight: 400;
-                    font-size: 0.8rem;
-                    color: #0085ff;
-                    cursor: pointer;
-                    margin-bottom: 2px;
-                }
             }
         }
         .timelyWeatherBox {
@@ -183,7 +176,7 @@
                 width: 126px;
                 min-width: 126px;
                 height: 70px;
-                background-color: #0989ff;
+                background-color: #ffffff39;
                 border-radius: 20px;
                 margin-left: 15px;
 
@@ -195,6 +188,7 @@
                     @include center;
                     width: 45%;
                     height: 100%;
+                    padding-left: 10px;
 
                     img {
                         width: 100%;

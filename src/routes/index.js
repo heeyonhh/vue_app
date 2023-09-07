@@ -1,5 +1,6 @@
-import {createRouter, createWebHashHistory} from "vue-router";
-import Home from "~/pages/Home";
+import { createRouter, createWebHashHistory } from "vue-router";
+import Forecast from "~/components/Forecast";
+import Airquality from "~/components/Airquality";
 
 export default createRouter({
 
@@ -9,8 +10,13 @@ export default createRouter({
     routes: [
         {
             path: "/",
-            name: Home,
-            component: Home,
-        }
+            name: Forecast,
+            component: Forecast,
+        },
+        {
+            path: "/airquality",
+            name: Airquality,
+            component: Airquality,
+        },
     ]
 })

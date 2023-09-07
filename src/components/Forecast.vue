@@ -1,5 +1,5 @@
 <template>
-  <div class="leftContainer">
+  <div class="home">
     <div id="cityNameBox">
       <div class="cityName">
         <p>{{ cityName }}</p>
@@ -9,8 +9,10 @@
     <div id="contentsBox">
       <div class="buttonBox">
         <div class="buttonBackground">
-          <button class="forecast">Forecast</button>
-          <button class="airquality">Air Quality</button>
+          <button class="forecast">날씨</button>
+          <router-link to="/airquality">
+            <button class="airquality">상세</button>
+          </router-link>
         </div>
       </div>
       <div class="weatherBox">
@@ -34,7 +36,6 @@
     <div id="todayWeather">
       <div class="textBox">
         <p>시간대별 날씨 정보</p>
-        <p>이번주 날씨 보기</p>
       </div>
       <div class="timelyWeatherBox">
         <div
@@ -141,5 +142,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "~/scss/main.scss";
-@import "~/scss/mainview.scss";
+@import "~/scss/forecast.scss";
 </style>

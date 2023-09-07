@@ -1,5 +1,5 @@
 <template>
-  <div class="rightContainer">
+  <div class="sub">
     <div id="cityNameBox">
       <div class="cityName">
         <p>{{ cityName }}</p>
@@ -9,8 +9,10 @@
     <div id="contentsBox">
       <div class="buttonBox">
         <div class="buttonBackground">
-          <button class="forecast">Forecast</button>
-          <button class="airquality">Air Quality</button>
+          <router-link to="/">
+            <button class="forecast">날씨</button>
+          </router-link>
+          <button class="airquality">상세</button>
         </div>
       </div>
       <div class="weatherBox">
@@ -24,8 +26,7 @@
           <div
             class="data"
             v-for="(detailData, index) in subWeatherData"
-            :key="index"
-          >
+            :key="index">
             <div class="dataName">
               <p></p>
               <p>{{ detailData.name }}</p>
@@ -165,5 +166,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "~/scss/main.scss";
-@import "~/scss/subview.scss";
+@import "~/scss/airquality.scss";
 </style>
