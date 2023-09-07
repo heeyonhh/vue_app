@@ -48,7 +48,7 @@ Optional api 리팩토링 해보기
 
 - Getters : vue.js computed 속성과 동일한 기능(계산된 데이터 만들어내는 기능) -> 동일한 계산식을 필요하는 데이터들은 미리 만들어놓고 호출하기 때문에 효율적
 
-Vue.js
+      Vue.js
 
       computed: {
         doneTodosCount(){
@@ -56,7 +56,7 @@ Vue.js
         },
       },
 
-Vuex Getters 호출
+      Vuex Getters 호출
 
       computed: {
         doneTodosCount(){
