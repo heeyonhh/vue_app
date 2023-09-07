@@ -10,23 +10,21 @@
       <div class="buttonBox">
         <div class="buttonBackground">
           <button class="forecast">Forecast</button>
-          <button class="airquality">Air quality</button>
+          <button class="airquality">Air Quality</button>
         </div>
       </div>
       <div class="weatherBox">
         <div class="weatherDegree">
-          <!-- 반올림 한수와 가장 가까운 정수값 -->
-          <p>{{ Math.round(currentTemp) }}&deg;</p>
+          <p>{{ currentTemp }}&deg;</p>
         </div>
         <div class="weatherIcon">
-          <img src="~/assets/images/01d.png" alt="MainLogo" />
+          <img :src="images[0]" alt="MainLogo" />
         </div>
         <div class="weatherData">
           <div
             v-for="temporary in temporaryData"
             :key="temporary.title"
-            class="detailData"
-          >
+            class="detailData">
             <p>{{ temporary.title }}</p>
             <p>{{ temporary.value }}</p>
           </div>
@@ -42,16 +40,17 @@
         <div
           class="timelyWeather"
           v-for="(temp, index) in arrayTemps"
-          :key="index"
-        >
+          :key="index">
           <div class="icon">
-            <img src="~/assets/images/01n.png" alt="29" />
+            <img :src="images[index]" alt="" />
           </div>
           <div class="data">
-            <p class="time">{{ Unix_timestamp(temp.dt) }}</p>
+            <p class="time">
+              {{ Unix_timestamp(temp.dt) }}
+            </p>
             <p class="currentDegree">{{ Math.round(temp.temp) }}&deg;</p>
             <div>
-              <img src="~/assets/images/drop.png" alt="drop" />
+              <img src="/images/drop.png" alt="" />
               <p class="fall">{{ temp.humidity }}%</p>
             </div>
           </div>
@@ -68,81 +67,69 @@
 </template>
 
 <script>
-import axios from "axios";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
-dayjs.locale("ko"); //한국어 locale사용
+dayjs.locale("ko"); // 한국어 locale 사용
 
 export default {
   data() {
     return {
-      //현재 시간 불러오기 dayjs플러그인
-      currentTime: dayjs().format("YYYY. MM .DD. ddd"),
-      //상세 날씨 데이터 데이터 할당
-      //현재 시간에 따른 현재 온도 데이터
-      currentTemp: "",
-      temps: [],
-      icons: [],
-      cityName: "",
-      arrayTemps: [],
+      // Dayjs 플러그인 사용
+      currentTime: dayjs().format("YYYY. MM. DD. ddd"),
+    };
+  },
+  async created() {
+    // 초기데이터 선언 https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+    await this.$store.dispatch("openWeatherApi/FETCH_OPENWEATHER_API");
+    const { currentTemp, currentHumidity, currentWindSpeed, currentFeelsLike } =
+      this.$store.state.openWeatherApi.currentWeather;
 
-      //임시데이터
-      temporaryData: [
+    this.currentTemp = currentTemp; // 현재온도
+    this.temporaryData[0].value = currentHumidity + "%"; //습도
+    this.temporaryData[1].value = currentWindSpeed + "m/s"; //풍속
+    this.temporaryData[2].value = Math.round(currentFeelsLike) + "도"; //체감온도
+    this.arrayTemps = this.$store.state.openWeatherApi.hourlyWeather;
+    this.images = this.$store.state.openWeatherApi.imagePath;
+  },
+  computed: {
+    // 마커를 선택했을 때 보여지는 도시 이름
+    cityName() {
+      return this.$store.state.openWeatherApi.cityName;
+    },
+    //현재 온도
+    currentTemp() {
+      const { currentTemp } = this.$store.state.openWeatherApi.currentWeather;
+      return currentTemp;
+    },
+    arrayTemps() {
+      return this.$store.state.openWeatherApi.hourlyWeather;
+    },
+    // 상세 날씨 데이터 할당
+    temporaryData() {
+      const { currentHumidity, currentWindSpeed, currentFeelsLike } =
+        this.$store.state.openWeatherApi.currentWeather;
+      return [
         {
           title: "습도",
-          value: "",
+          value: currentHumidity + "%",
         },
         {
           title: "풍속",
-          value: "",
+          value: currentWindSpeed + "m/s",
         },
         {
           title: "체감온도",
-          value: "",
+          value: Math.round(currentFeelsLike) + "도",
         },
-      ],
-    };
-  },
-  created() {
-    //https://api.openweathermap.org/data/2.5/onecall?lat=${initialLat}&lon=${initialLon}&appid=${API_KEY}&units=metric
-    const API_KEY = "284bfdeb630520653864189833ba7c68";
-    let initialLat = 36.5683;
-    let initialLon = 126.9778;
-
-    //get() api호출 then() 응답 catch() 에러 조회
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${initialLat}&lon=${initialLon}&appid=${API_KEY}&units=metric`
-      )
-      .then((response) => {
-        // console.log(response);
-        let initialCityName = response.data.timezone;
-        let initialCurrentWeatherData = response.data.current;
-
-        this.cityName = initialCityName.split("/")[1]; // ['asia', 'seoul']
-
-        this.currentTemp = initialCurrentWeatherData.temp;
-
-        this.temporaryData[0].value = initialCurrentWeatherData.humidity + "%"; //습도
-        this.temporaryData[1].value =
-          initialCurrentWeatherData.wind_speed + "m/s"; //풍속
-        this.temporaryData[2].value =
-          Math.round(initialCurrentWeatherData.feels_like) + "도"; //체감온도
-
-        //시간대별 날씨 데이터
-        // this.arrayTemps = response.data.hourly;
-        // //24시간 이내의 데이터만 활용
-        for (let i = 0; i < 24; i++) {
-          this.arrayTemps[i] = response.data.hourly[i];
-        }
-        // console.log(this.arrayTemps);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      ];
+    },
+    // 시간별 날씨 데이터에 대한 아이콘 이미지
+    images() {
+      return this.$store.state.openWeatherApi.images;
+    },
   },
   methods: {
-    //타임스탬프로 변환
+    // 타임스탬프로 변환
     Unix_timestamp(dt) {
       let date = new Date(dt * 1000);
       let hour = date.getHours().toString().padStart(2, "0");
