@@ -1,16 +1,16 @@
 # Vue3 & SASS 웨더 앱 만들기
 
-Open Weather Api 사용
+## Open Weather Api 사용
 
-카카오 맵 Api 사용
+## 카카오 맵 Api 사용
 
-- Composition api
+## Composition api
 
 Optional api 리팩토링 해보기
 
-- Vuex : 데이터 관리 가공 작업 Vuex에서 완료 > 컴포넌트에서 호출, 데이터를 렌더링
+## Vuex : 데이터 관리 가공 작업 Vuex에서 완료 > 컴포넌트에서 호출, 데이터를 렌더링
 
-Vue.js 컴포넌트 내에서 필요한 데이터를 만들때 : Data 속성 안에서 만듬
+- Vue.js 컴포넌트 내에서 필요한 데이터를 만들때 : Data 속성 안에서 만듬
 
       export default {
         data(){
@@ -21,7 +21,7 @@ Vue.js 컴포넌트 내에서 필요한 데이터를 만들때 : Data 속성 안
         },
       };
 
-Vuex Store에서 데이터 만들 때 : state 속성 선언 후 그 아래에 데이터 선언
+- Vuex Store에서 데이터 만들 때 : state 속성 선언 후 그 아래에 데이터 선언
 
       export default {
         state: {
@@ -77,7 +77,7 @@ Vuex Getters 호출
         }
       })
       
-Mutations 실행 : commit 메서드 사용
+- Mutations 실행 : commit 메서드 사용
 
       store.commit('뮤테이션_이름', 페이로드)
 
@@ -98,8 +98,8 @@ Mutations 실행 : commit 메서드 사용
           }}
       })
 
-Actions 호출 : dispatch
-
+- Actions 호출 : dispatch
+      
       store.dispatch('액션_이름',[페이로드])
 
 ##
