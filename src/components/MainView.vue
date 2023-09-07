@@ -22,7 +22,11 @@
           <img src="~/assets/images/01d.png" alt="MainLogo" />
         </div>
         <div class="weatherData">
-          <div v-for="temporary in temporaryData" :key="temporary.title" class="detailData">
+          <div
+            v-for="temporary in temporaryData"
+            :key="temporary.title"
+            class="detailData"
+          >
             <p>{{ temporary.title }}</p>
             <p>{{ temporary.value }}</p>
           </div>
@@ -35,7 +39,11 @@
         <p>이번주 날씨 보기</p>
       </div>
       <div class="timelyWeatherBox">
-        <div class="timelyWeather" v-for="(temp, index) in arrayTemps" :key="index">
+        <div
+          class="timelyWeather"
+          v-for="(temp, index) in arrayTemps"
+          :key="index"
+        >
           <div class="icon">
             <img src="~/assets/images/01n.png" alt="29" />
           </div>
@@ -116,13 +124,15 @@ export default {
         this.currentTemp = initialCurrentWeatherData.temp;
 
         this.temporaryData[0].value = initialCurrentWeatherData.humidity + "%"; //습도
-        this.temporaryData[1].value = initialCurrentWeatherData.wind_speed + "m/s"; //풍속
-        this.temporaryData[2].value = Math.round(initialCurrentWeatherData.feels_like) + "도"; //체감온도
+        this.temporaryData[1].value =
+          initialCurrentWeatherData.wind_speed + "m/s"; //풍속
+        this.temporaryData[2].value =
+          Math.round(initialCurrentWeatherData.feels_like) + "도"; //체감온도
 
         //시간대별 날씨 데이터
         // this.arrayTemps = response.data.hourly;
         // //24시간 이내의 데이터만 활용
-        for (let i = 0; i < 24; i++){
+        for (let i = 0; i < 24; i++) {
           this.arrayTemps[i] = response.data.hourly[i];
         }
         // console.log(this.arrayTemps);
@@ -131,14 +141,14 @@ export default {
         console.log(error);
       });
   },
-  methods:{
+  methods: {
     //타임스탬프로 변환
     Unix_timestamp(dt) {
       let date = new Date(dt * 1000);
-      let hour = "0" + date.getHours();
-      return hour.substr(-2) + "시";
-    }
-  }
+      let hour = date.getHours().toString().padStart(2, "0");
+      return hour + "시";
+    },
+  },
 };
 </script>
 
