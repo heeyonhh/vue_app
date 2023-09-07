@@ -102,6 +102,13 @@ Optional api 리팩토링 해보기
       
       store.dispatch('액션_이름',[페이로드])
 
+- 객체 구조분해하여 같은 방법으로 불러올 수 있음
+  
+      searchData({ context }) {
+      context.state, context.getters, context.commit;
+      },
+      searchData2({ state, getters, commit }, payload) {},
+
 ##
 
 - npm i -D webpack-dev-server@next로 설치(webpack-cli 버전(@4^)과 일치)
