@@ -51,7 +51,7 @@
             </p>
             <p class="currentDegree">{{ Math.round(temp.temp) }}&deg;</p>
             <div>
-              <img src="/images/drop.png" alt="" />
+              <img :src="drop" alt="" />
               <p class="fall">{{ temp.humidity }}%</p>
             </div>
           </div>
@@ -77,6 +77,7 @@ export default {
     return {
       // Dayjs 플러그인 사용
       currentTime: dayjs().format("YYYY. MM. DD. ddd"),
+      drop: '/images/drop.png',
     };
   },
   async created() {
@@ -90,7 +91,7 @@ export default {
     this.temporaryData[1].value = currentWindSpeed + "m/s"; //풍속
     this.temporaryData[2].value = Math.round(currentFeelsLike) + "도"; //체감온도
     this.arrayTemps = this.$store.state.openWeatherApi.hourlyWeather;
-    this.images = this.$store.state.openWeatherApi.imagePath;
+    this.images = this.$store.state.openWeatherApi.images;
   },
   computed: {
     // 마커를 선택했을 때 보여지는 도시 이름
