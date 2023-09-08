@@ -154,14 +154,14 @@ Optional api 리팩토링 해보기
       };
 - Vue.js를 사용한 웹 애플리케이션 개발 중 새로고침 시 404 페이지로 리다이렉트 되는 이슈
 
- connect-history-api-fallback 현상
-
- Vue.js의 경우 라우터에 등록된 Vue 컴퍼넌트들을 모듈 번들러를 통하여 Javascript로 컴파일하여 WebServer의 Document Root 폴더에 가지고 있다. 
-
- 라우터를 이용한 정상적인 페이지 요청 시에는 해당 페이지에 맞는 js 파일을 클라이언트가 요청하지만, 새로고침 시에는 도메인과 라우터 Path를 가지고 WebServer에 존재하지 않는 요청을 보내기 때문에 발생하는 이슈
-
- Hash Mode로 해결
- 
+       connect-history-api-fallback 현상
+      
+       Vue.js의 경우 라우터에 등록된 Vue 컴퍼넌트들을 모듈 번들러를 통하여 Javascript로 컴파일하여 WebServer의 Document Root 폴더에 가지고 있다. 
+      
+       라우터를 이용한 정상적인 페이지 요청 시에는 해당 페이지에 맞는 js 파일을 클라이언트가 요청하지만, 새로고침 시에는 도메인과 라우터 Path를 가지고 WebServer에 존재하지 않는 요청을 보내기 때문에 발생하는 이슈
+      
+       Hash Mode로 해결
+       
       import { createRouter, createWebHashHistory } from 'vue-router'
             
       const router = createRouter({
