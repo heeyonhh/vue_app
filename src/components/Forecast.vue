@@ -51,7 +51,7 @@
             </p>
             <p class="currentDegree">{{ Math.round(temp.temp) }}&deg;</p>
             <div>
-              <img src="/images/drop.png" alt="" />
+              <img src="assets/images/drop.png" alt="" />
               <p class="fall">{{ temp.humidity }}%</p>
             </div>
           </div>

@@ -66,7 +66,7 @@ export default {
                 const images = new Array();
                 for (let i = 0; i < 48; i++) {
                     const weatherIcon = res.data.hourly[i].weather[0].icon;
-                    images[i] = `images/${weatherIcon}.png`;
+                    images[i] = `assets/images/${weatherIcon}.png`;
                 }
 
                 context.commit('SET_IMAGEPATH', images);
