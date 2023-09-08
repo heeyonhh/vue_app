@@ -51,7 +51,7 @@
             </p>
             <p class="currentDegree">{{ Math.round(temp.temp) }}&deg;</p>
             <div>
-              <img src="assets/images/drop.png" alt="" />
+              <img src="/images/drop.png" alt="" />
               <p class="fall">{{ temp.humidity }}%</p>
             </div>
           </div>
@@ -141,6 +141,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/main.scss";
-@import "~/scss/forecast.scss";
+@import "../scss/main.scss";
+@import "../scss/forecast.scss";
 </style>

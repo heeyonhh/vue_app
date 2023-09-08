@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Forecast from "~/components/Forecast";
-import Airquality from "~/components/Airquality";
+import Forecast from "../components/Forecast";
+import Airquality from "../components/Airquality";
 
 export default createRouter({
 

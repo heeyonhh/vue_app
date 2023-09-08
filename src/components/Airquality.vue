@@ -165,6 +165,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~/scss/main.scss";
-@import "~/scss/airquality.scss";
+@import "../scss/main.scss";
+@import "../scss/airquality.scss";
 </style>

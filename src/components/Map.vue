@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MapPositions from '~/assets/mappositions.json';
+import MapPositions from '../assets/mappositions.json';
 
 export default {
   mounted() {
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~/scss/main.scss';
+@import '../scss/main.scss';
 
 #mapContainer {
   @include center;

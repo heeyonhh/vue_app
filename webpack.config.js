@@ -7,17 +7,14 @@ const { VueLoaderPlugin } = require("vue-loader");
 module.exports = {
   resolve: {
     extensions: [".js", ".vue"],
-    alias: {
-      "~": path.resolve(__dirname, "src"),
-      assets: path.resolve(__dirname, "src/assets"),
-    },
+    //생략 가능
   },
   // 파일을 읽어들이기 시작하는 진입점 설정
   entry: "./src/main.js",
 
   // 결과물(번들)을 반환하는 설정
   output: {
-    // 주석은 기본값!, `__dirname`은 현재 파일의 위치를 알려주는 NodeJS 전역 변수
+    // `__dirname`은 현재 파일의 위치를 알려주는 NodeJS 전역 변수
     path: path.resolve(__dirname, 'docs'),
     filename: 'main.js',
     clean: true,
@@ -60,7 +57,7 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: "static" },
+        { from: "public" },
       ],
     }),
     new VueLoaderPlugin(),
