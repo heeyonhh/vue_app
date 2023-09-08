@@ -122,3 +122,5 @@ Optional api 리팩토링 해보기
 - npm run dev
 
 - npm install vuex@next
+  
+- npm run build
