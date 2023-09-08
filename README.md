@@ -153,7 +153,7 @@ Optional api 리팩토링 해보기
         publicPath: '', // 빌드된 파일의 루트 경로
       };
 
-- 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d2577fedb4f298e401a8d421825311fa” 로드를 차단함
+- 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=” 로드를 차단함
 
   > Content-Security-Policy 헤더를 사용하여 http://dapi.kakao.com/v2/maps/sdk.js를 차단하지 않도록 설정
 
