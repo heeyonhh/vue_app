@@ -59,7 +59,13 @@ module.exports = {
       template: "./index.html",
     }),
     new CopyPlugin({
-      patterns: [{ from: "static" }],
+      patterns: [
+        { from: "static" },
+        {
+          from: "public/images", // public 폴더의 이미지 폴더 경로
+          to: "images",
+        },
+      ],
     }),
     new VueLoaderPlugin(),
   ],
