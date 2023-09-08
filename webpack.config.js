@@ -47,8 +47,13 @@ module.exports = {
         test: /\.(png|jpe?g|gif|webp)$/,
         use: "file-loader",
       },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/,
+        use: "url-loader",
+      },
     ],
   },
+
 
   // 번들링 후 결과물의 처리 방식 등 다양한 플러그인들을 설정
   plugins: [
