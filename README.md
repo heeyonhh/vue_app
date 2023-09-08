@@ -125,9 +125,9 @@ Optional api 리팩토링 해보기
   
 - npm run build
 
-## 빌드 후 문제 해결
+## 웹 호스팅 서비스에 배포 (정적 웹사이트를 배포 빌드) 문제 해결
 
-- dist 폴더에 images 폴더 copy -> copy-webpack-plugin 사용 npm install copy-webpack-plugin --save-dev
+- docs 폴더에 images 폴더 copy -> copy-webpack-plugin 사용 npm install copy-webpack-plugin --save-dev
 
       const CopyWebpackPlugin = require('copy-webpack-plugin');
       
@@ -138,7 +138,7 @@ Optional api 리팩토링 해보기
               patterns: [
                 {
                   from: 'public/images', // public 폴더의 이미지 폴더 경로
-                  to: 'images', // dist 폴더에 복사될 경로
+                  to: 'images', // docs 폴더에 복사될 경로
                 },
               ],
             }),
@@ -146,12 +146,17 @@ Optional api 리팩토링 해보기
         },
       };
 
-- > vue.config.js
+- > webpack.config.js > webpack 구성 파일에서 빌드 결과물을 생성하는 경로를 설정
 
       module.exports = {
-        // outputDir: './docs', // 빌드 결과물이 저장될 폴더
-        publicPath: '', // 빌드된 파일의 루트 경로
-      };
+        // 결과물(번들)을 반환하는 설정
+        output: {
+          // 주석은 기본값!, `__dirname`은 현재 파일의 위치를 알려주는 NodeJS 전역 변수
+          path: path.resolve(__dirname, 'docs'),
+          filename: 'main.js',
+          clean: true,
+        },
+  
 - Vue.js를 사용한 웹 애플리케이션 개발 중 새로고침 시 404 페이지로 리다이렉트 되는 이슈
 
        connect-history-api-fallback 현상
