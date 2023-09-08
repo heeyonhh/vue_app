@@ -125,9 +125,9 @@ Optional api 리팩토링 해보기
   
 - npm run build
 
-## 빌드 후 문제 해결
+## 웹 호스팅 서비스에 배포 (정적 웹사이트를 배포 빌드) 문제 해결
 
-- dist 폴더에 images 폴더 copy -> copy-webpack-plugin 사용 npm install copy-webpack-plugin --save-dev
+- docs 폴더에 images 폴더 copy -> copy-webpack-plugin 사용 npm install copy-webpack-plugin --save-dev
 
       const CopyWebpackPlugin = require('copy-webpack-plugin');
       
@@ -138,7 +138,7 @@ Optional api 리팩토링 해보기
               patterns: [
                 {
                   from: 'public/images', // public 폴더의 이미지 폴더 경로
-                  to: 'images', // dist 폴더에 복사될 경로
+                  to: 'images', // docs 폴더에 복사될 경로
                 },
               ],
             }),
@@ -146,18 +146,42 @@ Optional api 리팩토링 해보기
         },
       };
 
-- > vue.config.js
+- > webpack.config.js > webpack 구성 파일에서 빌드 결과물을 생성하는 경로를 설정
 
       module.exports = {
-        // outputDir: './docs', // 빌드 결과물이 저장될 폴더
-        publicPath: '', // 빌드된 파일의 루트 경로
-      };
+        // 결과물(번들)을 반환하는 설정
+        output: {
+          // 주석은 기본값!, `__dirname`은 현재 파일의 위치를 알려주는 NodeJS 전역 변수
+          path: path.resolve(__dirname, 'docs'),
+          filename: 'main.js',
+          clean: true,
+        },
+  
+- Vue.js를 사용한 웹 애플리케이션 개발 중 새로고침 시 404 페이지로 리다이렉트 되는 이슈
 
-- 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=” 로드를 차단함
+       connect-history-api-fallback 현상
+      
+       Vue.js의 경우 라우터에 등록된 Vue 컴퍼넌트들을 모듈 번들러를 통하여 Javascript로 컴파일하여 WebServer의 Document Root 폴더에 가지고 있다. 
+      
+       라우터를 이용한 정상적인 페이지 요청 시에는 해당 페이지에 맞는 js 파일을 클라이언트가 요청하지만, 새로고침 시에는 도메인과 라우터 Path를 가지고 WebServer에 존재하지 않는 요청을 보내기 때문에 발생하는 이슈
+      
+       Hash Mode로 해결
+       
+      import { createRouter, createWebHashHistory } from 'vue-router'
+            
+      const router = createRouter({
+            history: createWebHashHistory(),
+            routes: [
+            //...
+      ],})
 
+- 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=” 로드를 차단함 :  Mixed Content 오류
+
+  > <meta> 태그는 브라우저에게 HTTP 리소스를 HTTPS로 업그레이드하도록 지시
+  
   > Content-Security-Policy 헤더를 사용하여 http://dapi.kakao.com/v2/maps/sdk.js를 차단하지 않도록 설정
 
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-- 배포 후 이미지 차단 오류 > Content Security Policy (CSP) 설정에 따라 리소스 로드가 차단
+  
 
