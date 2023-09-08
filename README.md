@@ -146,9 +146,7 @@ Optional api 리팩토링 해보기
         },
       };
 
-- vue cli 서버 환경
-
-vue.config.js
+- > vue.config.js
 
       module.exports = {
         // outputDir: './docs', // 빌드 결과물이 저장될 폴더
@@ -157,11 +155,11 @@ vue.config.js
 
 - 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d2577fedb4f298e401a8d421825311fa” 로드를 차단함
 
-Content-Security-Policy 헤더를 사용하여 http://dapi.kakao.com/v2/maps/sdk.js를 차단하지 않도록 설정
+  > Content-Security-Policy 헤더를 사용하여 http://dapi.kakao.com/v2/maps/sdk.js를 차단하지 않도록 설정
 
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-- Content Security Policy (CSP) 설정에 따라 리소스 로드가 차단
+- 배포 후 이미지 차단 오류 > Content Security Policy (CSP) 설정에 따라 리소스 로드가 차단
 
  CSP 개요
  
