@@ -153,11 +153,13 @@ Optional api 리팩토링 해보기
         publicPath: '', // 빌드된 파일의 루트 경로
       };
 
-- 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=” 로드를 차단함
+- 혼합된 액티브 콘텐츠 “http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=” 로드를 차단함 :  Mixed Content 오류
 
+  > <meta> 태그는 브라우저에게 HTTP 리소스를 HTTPS로 업그레이드하도록 지시
+  
   > Content-Security-Policy 헤더를 사용하여 http://dapi.kakao.com/v2/maps/sdk.js를 차단하지 않도록 설정
 
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-- 배포 후 이미지 차단 오류 > Content Security Policy (CSP) 설정에 따라 리소스 로드가 차단
+  
 
