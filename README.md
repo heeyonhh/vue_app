@@ -183,5 +183,9 @@ Optional api 리팩토링 해보기
 
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
-  
+- 이미지가 로드 되지 않는 오류 : 404 Not Found
+
+ 404 Not Found 에러는 "서버 자체는 존재하지만 서버에서 요청한 것을 찾을 수 없을 때"
+
+
 
