@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       // Dayjs 플러그인 사용
-      currentTime: dayjs().format("YYYY. MM. DD. ddd"),
+      currentTime: dayjs().format("YYYY. MM. DD. ddd")
     };
   },
   async created() {
